@@ -8,10 +8,10 @@ services:
     volumes:
       - ./db-procs:/docker-entrypoint-initdb.d
     environment:
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_DATABASE: ccny_connect
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
       interval: 5s
@@ -31,3 +31,10 @@ services:
     volumes:
       - .:/app
       - /app/.next
+    environment:
+      SECRET_KEY: 486c53069c1e6b876da5bf5c6e08e7dd
+      SECRET_IV: a919d48fcc96fb0d
+      DB_HOST: db
+      DB_NAME: ccny_connect
+      DB_USER: dev
+      DB_PASSWORD: dev
