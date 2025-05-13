@@ -9,7 +9,7 @@ export default function Navbar() {
   const pathname = usePathname()
 
   return (
-    <nav className="bg-black px-6 py-4 flex items-center justify-between">
+    <nav className="bg-black px-6 py-4 flex w-100vw justify-between">
       {/* Brand */}
       <Link
         href="/"
@@ -24,7 +24,7 @@ export default function Navbar() {
           href="/home"
           className={
             `text-sm font-medium ` +
-            (pathname === '/'
+            (pathname === '/home'
               ? 'text-purple-500'
               : 'text-white hover:text-purple-400')
           }
