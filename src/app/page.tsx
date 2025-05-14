@@ -59,7 +59,7 @@ export default function Home() {
               <Library className="w-12 h-12 text-gray-400 mb-4" />
               <h4 className="font-semibold text-xl text-purple-500 mb-2">Course resources</h4>
               <p className="text-gray-600">
-                Find resources to help you study and ace your classes with the expanding resource library. Have a resource to share? We support uploads too!
+                Find resources to help you study and ace your classes with the expanding resource library. Have a resource to share? Upload it and help your friends out.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center text-center">
