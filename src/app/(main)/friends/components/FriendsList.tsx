@@ -36,19 +36,19 @@ const FriendsList: React.FC<FriendsListProps> = ({
           <div className="flex space-x-2">
             <button
               onClick={() => onViewProfile(friend.id)}
-              className="px-4 py-2 bg-purple-700 hover:bg-purple-900 text-white rounded"
+              className="px-4 py-2 bg-purple-700 hover:bg-purple-900 text-white rounded-full"
             >
               View Profile
             </button>
             <button
               onClick={() => onMessage(friend.id)}
-              className="px-4 py-2 bg-green-700 hover:bg-green-900 text-white rounded"
+              className="px-4 py-2 bg-green-700 hover:bg-green-900 text-white rounded-full"
             >
               Message
             </button>
             <button
               onClick={() => onRemoveFriend(friend.id)}
-              className="px-4 py-2 bg-red-700 hover:bg-red-900 text-white rounded"
+              className="px-4 py-2 bg-red-700 hover:bg-red-900 text-white rounded-full"
             >
               Remove Friend
             </button>
