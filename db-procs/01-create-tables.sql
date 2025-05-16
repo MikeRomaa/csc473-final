@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS user (
 -- Main table for course data
 CREATE TABLE IF NOT EXISTS course (
     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    code        VARCHAR(10)  NOT NULL,
+    code        VARCHAR(15)  NOT NULL,
     title       VARCHAR(100) NOT NULL,
-    description VARCHAR(255) NOT NULL DEFAULT '',
+    description TEXT NOT NULL,
 
     PRIMARY KEY (id)
 );
@@ -30,7 +30,5 @@ CREATE TABLE IF NOT EXISTS user_course (
     -- Optional, users are not required to share the grade they received
     grade     ENUM('C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+') NULL,
 
-    PRIMARY KEY (user_id, course_id, year, semester),
-    FOREIGN KEY (user)   REFERENCES user(id),
-    FOREIGN KEY (course) REFERENCES course(id)
+    PRIMARY KEY (user_id, course_id, year, semester)
 );

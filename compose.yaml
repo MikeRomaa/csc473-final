@@ -4,7 +4,7 @@ services:
     init: true
     restart: always
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - ./db-procs:/docker-entrypoint-initdb.d
     environment:
@@ -30,7 +30,7 @@ services:
       - 3000:3000
     volumes:
       - .:/app
-      - /app/.next
+      # - /app/.next
     environment:
       SECRET_KEY: 486c53069c1e6b876da5bf5c6e08e7dd
       SECRET_IV: a919d48fcc96fb0d
