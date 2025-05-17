@@ -13,7 +13,7 @@ const SearchFriends: React.FC<SearchFriendsProps> = ({ value, onChange }) => {
         placeholder="Search friends..."
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-2 rounded-full bg-gray-200 placeholder-gray-500 focus:outline-none"
+        className="w-full px-4 py-2 rounded-full bg-gray-200 placeholder-gray-500 text-gray-800 focus:outline-none"
       />
     </div>
   );
