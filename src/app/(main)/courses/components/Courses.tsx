@@ -31,7 +31,7 @@ export default function Courses() {
   };
 
   return (
-    <div className="h-screen bg-blue-50 p-4">
+    <div className="h-screen p-4">
       <SearchCourses value={searchTerm} onChange={setSearchTerm} onSearch={handleSearch} />
       <div className="mt-4 space-y-8">
         {filtered.map(course => (

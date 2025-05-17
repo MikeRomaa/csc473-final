@@ -38,7 +38,7 @@ export default function Home() {
   const handleViewProfile = (i: string) => console.log(i);
 
   return (
-    <div className="bg-gray-100 min-h-screen py-8 px-6">
+    <div className="min-h-screen py-8 px-6">
       <div className="container mx-auto">
         <h1 className="text-2xl font-semibold mb-6 text-black">My Feed</h1>
         <div className="flex items-start gap-8">
