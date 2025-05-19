@@ -22,6 +22,7 @@ services:
     build:
       context: .
       target: dev
+    platform: linux/amd64
     init: true
     restart: always
     depends_on:
@@ -30,7 +31,7 @@ services:
       - 3000:3000
     volumes:
       - .:/app
-      # - /app/.next
+      - /app/.next
     environment:
       SECRET_KEY: 486c53069c1e6b876da5bf5c6e08e7dd
       SECRET_IV: a919d48fcc96fb0d
