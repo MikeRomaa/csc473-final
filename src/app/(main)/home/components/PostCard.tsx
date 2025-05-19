@@ -44,7 +44,7 @@ export default function PostCard({
         <select
           value={selectedCourseId}
           onChange={e => onCourseChange?.(e.target.value)}
-          className="px-4 py-2 border border-black bg-purple-500 rounded-full text-white"
+          className="px-4 py-2 border border-black bg-purple-700 hover:bg-purple-900 rounded-full text-white"
         >
           {courses.map(c => (
             <option key={c.id} value={c.id}>{c.label}</option>
@@ -52,7 +52,7 @@ export default function PostCard({
         </select>
         <button
           onClick={handlePost}
-          className="bg-purple-500 text-white px-4 py-2 rounded-full"
+          className="bg-purple-700 hover:bg-purple-900 text-white px-4 py-2 rounded-full"
         >
           Post
         </button>

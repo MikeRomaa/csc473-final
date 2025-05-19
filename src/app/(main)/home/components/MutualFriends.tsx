@@ -23,7 +23,7 @@ export default function MutualFriends({ friends, onViewProfile }: MutualFriendsP
             <div key={f.id} className="flex flex-col items-center min-w-[100px]">
               {f.avatarUrl ? <img src={f.avatarUrl} alt={f.name} className="w-16 h-16 rounded-full" /> : <User className="w-16 h-16 text-gray-800" />}
               <span className="font-medium mt-2 text-center text-sm text-gray-800">{f.name}</span>
-              <button onClick={() => onViewProfile(f.id)} className="bg-purple-500 text-white px-2 py-1 rounded text-xs mt-1">View</button>
+              <button onClick={() => onViewProfile(f.id)} className="bg-purple-700 hover:bg-purple-900 text-white px-2 py-1 rounded text-xs mt-1">View</button>
               <span className="text-yellow-800 bg-yellow-100 px-2 py-1 rounded-full text-xs mt-1 text-center">{f.mutualCourses} mutual courses</span>
             </div>
           ))}
