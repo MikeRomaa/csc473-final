@@ -4,7 +4,7 @@ import FriendsList, { Friend } from "../components/FriendsList";
 import SearchFriends from "../components/SearchFriends";
 
 export default function Friends() {
-  const [search, setSearch] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   // hard-coded test data
   const friendsData: Friend[] = [
@@ -13,12 +13,15 @@ export default function Friends() {
     { id: "3", name: "Mansij Mishra" },
   ];
 
-  const filtered = friendsData.filter((f) =>
-    f.name.toLowerCase().includes(search.toLowerCase())
+  const filtered = friendsData.filter(course =>
+    course.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleSearch = () => {
+  };
+
   return (
-    <div className="w-full min-h-screen bg-gray-100 p-6 space-y-8">
+    <div className="w-full min-h-screen p-6 space-y-8">
       <div>
         <h2 className="text-2xl font-semibold text-black mb-4">Friends</h2>
         <FriendsList
@@ -31,7 +34,7 @@ export default function Friends() {
 
       <div>
         <h2 className="text-2xl font-semibold mb-4 text-black">Add Friends</h2>
-        <SearchFriends value={search} onChange={(e) => setSearch(e.target.value)} />
+        <SearchFriends value={searchTerm} onChange={setSearchTerm} onSearch={handleSearch} />
       </div>
     </div>
   );
