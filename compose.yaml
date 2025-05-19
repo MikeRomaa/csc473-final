@@ -4,7 +4,7 @@ services:
     init: true
     restart: always
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - ./db-procs:/docker-entrypoint-initdb.d
     environment:
@@ -22,6 +22,7 @@ services:
     build:
       context: .
       target: dev
+    platform: linux/amd64
     init: true
     restart: always
     depends_on:
