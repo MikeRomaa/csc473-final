@@ -18,13 +18,13 @@ export default function Home() {
             <div className="flex space-x-4">
               <Link
                 href="/signup"
-                className="bg-purple-500 text-white font-semibold py-3 px-8 rounded-lg hover:bg-yellow-500"
+                className="bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg hover:bg-purple-500"
               >
                 Get Started
               </Link>
               <Link
                 href="/login"
-                className="border-2 border-purple-500 text-white font-semibold py-3 px-8 rounded-lg hover:bg-[#F9B233] hover:text-[#0E1E33] transition"
+                className="border-2 border-purple-700 text-white font-semibold py-3 px-8 rounded-lg hover:bg-purple-500 hover:text-[#0E1E33] transition"
               >
                 Login
               </Link>
@@ -43,35 +43,35 @@ export default function Home() {
 
       <section className="bg-gray-100 py-20">
         <div className="container mx-auto px-6">
-          <h3 className="text-3xl font-bold text-center text-purple-500 mb-4">How can CCNY Connect help me?</h3>
+          <h3 className="text-3xl font-bold text-center text-purple-700 mb-4">How can CCNY Connect help me?</h3>
           <p className="text-center text-gray-700 mb-12">
             With CCNY Connect, you have a one stop hub for help, communication and resources.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center text-center">
               <MessageCircleQuestion className="w-12 h-12 text-gray-400 mb-4" />
-              <h4 className="font-semibold text-xl text-purple-500 mb-2">Get your questions answered</h4>
+              <h4 className="font-semibold text-xl text-purple-700 mb-2">Get your questions answered</h4>
               <p className="text-gray-600">
                 Ask questions to your network on course topics, assignments and much more!
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center text-center">
               <Library className="w-12 h-12 text-gray-400 mb-4" />
-              <h4 className="font-semibold text-xl text-purple-500 mb-2">Course resources</h4>
+              <h4 className="font-semibold text-xl text-purple-700 mb-2">Course resources</h4>
               <p className="text-gray-600">
                 Find resources to help you study and ace your classes with the expanding resource library. Have a resource to share? Upload it and help your friends out.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center text-center">
               <UsersRound className="w-12 h-12 text-gray-400 mb-4" />
-              <h4 className="font-semibold text-xl text-purple-500 mb-2">Find tutors</h4>
+              <h4 className="font-semibold text-xl text-purple-700 mb-2">Find tutors</h4>
               <p className="text-gray-600">
                 Find people who are comfortable helping in different courses. Feel like helping out in a course? Indicate so on your profile and watch the dms flow.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center text-center">
               <Handshake className="w-12 h-12 text-gray-400 mb-4" />
-              <h4 className="font-semibold text-xl text-purple-500 mb-2">Make new friends</h4>
+              <h4 className="font-semibold text-xl text-purple-700 mb-2">Make new friends</h4>
               <p className="text-gray-600">
                 Find mutual peers in courses you're taking, and message them here! 
               </p>
@@ -83,7 +83,7 @@ export default function Home() {
       <footer className="bg-black text-white pt-12 pb-6">
         <div className="container mx-auto px-6 text-center mb-6">
         </div>
-        <div className="border-t-2 border-purple-500 mx-auto w-full my-4" />
+        <div className="border-t-2 border-purple-700 mx-auto w-full my-4" />
         <div className="container mx-auto px-6">
           <p className="text-left text-sm">
             © 2025 CCNY Connect. All rights reserved.

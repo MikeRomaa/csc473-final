@@ -4,7 +4,7 @@ services:
     init: true
     restart: always
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - ./db-procs:/docker-entrypoint-initdb.d
     environment:
@@ -22,6 +22,7 @@ services:
     build:
       context: .
       target: dev
+    platform: linux/amd64
     init: true
     restart: always
     depends_on:
@@ -30,6 +31,7 @@ services:
       - 3000:3000
     volumes:
       - .:/app
+      - /app/node_modules
       - /app/.next
     environment:
       SECRET_KEY: 486c53069c1e6b876da5bf5c6e08e7dd

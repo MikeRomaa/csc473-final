@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-black w-full px-6 py-4 flex items-center">
-      <Link href="/" className="text-2xl font-bold text-purple-500">
+      <Link href="/" className="text-2xl font-bold text-purple-700">
         CCNY Connect
       </Link>
 
@@ -18,8 +18,8 @@ export default function Navbar() {
           href="/home"
           className={
             pathname === '/home'
-              ? 'text-purple-500'
-              : 'text-white hover:text-purple-400'
+              ? 'text-purple-600'
+              : 'text-white hover:text-purple-500'
           }
         >
           Dashboard
@@ -28,8 +28,8 @@ export default function Navbar() {
           href="/friends"
           className={
             pathname === '/friends'
-              ? 'text-purple-500'
-              : 'text-white hover:text-purple-400'
+              ? 'text-purple-600'
+              : 'text-white hover:text-purple-500'
           }
         >
           Friends
@@ -38,17 +38,20 @@ export default function Navbar() {
           href="/courses"
           className={
             pathname === '/courses'
-              ? 'text-purple-500'
-              : 'text-white hover:text-purple-400'
+              ? 'text-purple-600'
+              : 'text-white hover:text-purple-500'
           }
         >
           Courses
         </Link>
-      </div>
-
-      <Link href="/profile" className="text-white hover:text-purple-400">
+              <Link href="/profile" className={
+            pathname === '/profile'
+              ? 'text-purple-600'
+              : 'text-white hover:text-purple-500'
+          }>
         <User className="w-8 h-8" />
       </Link>
+      </div>
     </nav>
   )
 }
