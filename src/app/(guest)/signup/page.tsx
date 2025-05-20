@@ -40,9 +40,13 @@ export default function Signup() {
       const response = await register(formObj);
       if (response.formError) {
         console.log(response.formError);
+        toast.error(response.formError, { duration: 3500 });
       } else {
-        router.push("/home");
+        toast.success("Succesfully created your account.", { duration: 3500 });
         console.log(response.data);
+        setTimeout(() => {
+          router.push("/home");
+        }, 500);
       }
     } catch (error) {
       toast.error("Something went wrong: " + String(error), { duration: 2000 });
