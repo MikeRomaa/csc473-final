@@ -4,17 +4,20 @@ import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import { User } from "lucide-react";
 import { signOut } from "../(main)/actions/logout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "./loading";
 
-export default function Navbar() {
+export default function Navbar({
+  isActiveSession,
+}: {
+  isActiveSession: boolean;
+}) {
   const [loading, setLoading] = useState(false);
   const pathname = usePathname();
 
   if (loading) {
     <Loading />;
   }
-
   return (
     <nav className="bg-black w-full px-6 py-4 flex items-center">
       <Link href="/" className="text-2xl font-bold text-purple-700">
@@ -62,15 +65,17 @@ export default function Navbar() {
         >
           <User className="w-8 h-8" />
         </Link>
-        <button
-          onClick={async () => {
-            await signOut();
-            setLoading(true);
-            redirect("/login");
-          }}
-        >
-          sign out
-        </button>
+        {isActiveSession && (
+          <button
+            onClick={async () => {
+              await signOut();
+              setLoading(true);
+              redirect("/login");
+            }}
+          >
+            sign out
+          </button>
+        )}
       </div>
     </nav>
   );

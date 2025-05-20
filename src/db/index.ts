@@ -9,6 +9,4 @@ const CONFIG: PoolOptions = {
   port: 3306,
 };
 
-console.log("inpool");
-
 export const pool = mysql.createPool(CONFIG).promise();
