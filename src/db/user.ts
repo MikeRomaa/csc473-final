@@ -35,20 +35,13 @@ export async function getUser(
   email: string,
   password: string
 ): Promise<User | null> {
+  const [res1] = await pool.execute("SELECT * FROM user");
   const [res] = await pool.execute<UserRow[]>(
-    `SELECT
-            id,
-            email,
-            password_hash,
-            first_name,
-            last_name
-        FROM user
-        WHERE user.email = :email`,
-    { email }
+    `SELECT id, email, password_hash, first_name, last_name
+     FROM user
+     WHERE email = ?`,
+    [email]
   );
-
-  console.log(res);
-  console.log(email);
 
   if (res.length !== 1) {
     return null;
