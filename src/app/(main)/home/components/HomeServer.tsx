@@ -1,13 +1,16 @@
+import React from "react";
 import HomeClient from "./HomeClient";
-import { getCurrentUser } from "@/lib/cookies";
-import { getMyCourses }     from "@/db/courses";
-import { getFeed }          from "@/db/posts";
+
+import { getCurrentUser }       from "@/lib/cookies";
+import { getMyCourses }         from "@/db/courses";
+import { getFeed }              from "@/db/posts";
+import { getResourcesByCourse } from "@/db/resources";
 import { createPostAction, addReplyAction } from "../actions";
 
-import type { CourseRow } from "@/db/courses";
-import type { Post }      from "@/db/posts";
-import type { ResourceItem }   from "./Resources";
-import type { Friend }         from "./MutualFriends";
+import type { CourseRow }    from "@/db/courses";
+import type { Post }         from "@/db/posts";
+import type { ResourceItem } from "./Resources";
+import type { Friend }       from "./MutualFriends";
 
 export default async function HomeServer() {
   const user = await getCurrentUser();
@@ -19,24 +22,37 @@ export default async function HomeServer() {
     );
   }
 
-  const [ courses, feed ] = await Promise.all([
-    getMyCourses(user.id),
-    getFeed(),
+  const [coursesRows, feed] = await Promise.all([
+    getMyCourses(user.id), 
+    getFeed(),             
   ]);
 
-  const courseOptions = courses.map(c => ({
+  const courseOptions = coursesRows.map(c => ({
     id:    String(c.id),
     label: c.code,
   }));
 
-  const resources: ResourceItem[] = [
-    { id: "r1", title: "Chemistry Practice questions", resourceType: "document", url: "#" },
-    /* …etc… */
-  ];
+  const enrolledCourses = coursesRows.map(c => ({
+    id:    String(c.id),
+    code:  c.code,
+    title: c.title,
+  }));
+  const initialCourse = enrolledCourses[0] || { id: "", code: "", title: "" };
+
+  const resourceIds = initialCourse.id
+    ? await getResourcesByCourse(Number(initialCourse.id))
+    : [];
+  const resources: ResourceItem[] = resourceIds.map(rid => ({
+    id:           String(rid),
+    title:        `Resource ${rid}`,  
+    resourceType: "document",
+    url:          `/resources/${rid}`,
+  }));
 
   const friends: Friend[] = [
     { id: "f1", name: "Olu Kukoyi", mutualCourses: 2 },
-    /* …etc… */
+    { id: "f2", name: "Jane Doe",   mutualCourses: 1 },
+    { id: "f3", name: "John Smith", mutualCourses: 3 },
   ];
 
   return (
@@ -47,6 +63,9 @@ export default async function HomeServer() {
       friends={friends}
       createPostAction={createPostAction}
       addReplyAction={addReplyAction}
+
+      enrolledCourses={enrolledCourses}
+      initialCourse={initialCourse}
     />
   );
 }

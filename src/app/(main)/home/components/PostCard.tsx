@@ -13,7 +13,7 @@ export interface PostCardProps {
 
 export default function PostCard({ courses, action }: PostCardProps) {
   return (
-    <form action={action} method="post" className="bg-white rounded-lg p-6 mb-6">
+    <form action={action} className="bg-white rounded-lg p-6 mb-6">
       <div className="flex items-center mb-4">
         <User className="w-10 h-10 text-black" />
         <input

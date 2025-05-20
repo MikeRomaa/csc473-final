@@ -19,9 +19,10 @@ export default function FeedItem({ post, action }: FeedItemProps) {
           {post.courseCode}
         </span>
       </div>
+
       <p className="mb-4 text-gray-700">{post.post}</p>
 
-      <form action={action} method="post" className="flex items-center">
+      <form action={action} className="flex items-center">
         <input type="hidden" name="postId" value={post.id} />
         <input
           name="content"
@@ -40,7 +41,9 @@ export default function FeedItem({ post, action }: FeedItemProps) {
             <div key={r.id} className="flex items-start mb-2 ml-12">
               <User className="w-6 h-6 text-black" />
               <div className="ml-2">
-                <span className="block font-medium text-black text-sm">{r.name}</span>
+                <span className="block font-medium text-black text-sm">
+                  {r.name}
+                </span>
                 <p className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg">
                   {r.content}
                 </p>
