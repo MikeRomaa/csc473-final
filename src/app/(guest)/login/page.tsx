@@ -30,12 +30,17 @@ export default function Login() {
       const info = await login(formObj);
       console.log("got info");
       if (info.data?.id) {
+        toast.success("Sucessfully logged in.", {
+          duration: 3000,
+        });
         console.log("info");
-        router.push("/home");
+        setTimeout(() => {
+          router.push("/home");
+        }, 500);
       } else {
         console.log(info);
         toast.error("Error logging in, please double check credentials.", {
-          duration: 2000,
+          duration: 3500,
         });
       }
     } catch (error) {
