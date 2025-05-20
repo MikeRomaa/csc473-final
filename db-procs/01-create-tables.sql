@@ -32,3 +32,12 @@ CREATE TABLE IF NOT EXISTS user_course (
 
     PRIMARY KEY (user_id, course_id, year, semester)
 );
+
+-- Junction table for friends
+CREATE TABLE IF NOT EXISTS friends (
+    user_a INT UNSIGNED NOT NULL,
+    user_b INT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (user_a, user_b)
+);

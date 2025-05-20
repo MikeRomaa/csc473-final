@@ -1,64 +1,49 @@
-// components/CourseList.tsx
-import React, { useState } from 'react';
-import { User } from 'lucide-react';
-import CourseModal, { EnrolledUser } from './CourseModal';
+import { User } from "lucide-react";
+import React, { useState } from "react";
+
+import type { Course } from "@/db/courses";
+import { truncate } from "@/utils";
+import CourseModal from "./CourseModal";
 
 export type CourseListProps = {
-  courseId: string;
-  courseTitle: string;
-  description: string;
-  totalEnrolled: number;
-  friendsEnrolled?: number;
-  enrolled: boolean;
-  enrolledUsers: EnrolledUser[];
+    course: Course;
 };
 
-export default function CourseList({
-  courseId,
-  courseTitle,
-  description,
-  totalEnrolled,
-  friendsEnrolled = 0,
-  enrolled,
-  enrolledUsers,
-}: CourseListProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+export default function CourseList({ course }: CourseListProps) {
+    const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <>
-      <div
-        onClick={openModal}
-        className="relative flex items-center justify-between bg-white rounded-lg px-4 py-3 shadow-sm cursor-pointer hover:shadow-md transition"
-      >
-        <span className="text-lg font-semibold text-black z-10">
-          {courseId}
-        </span>
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
 
-        {friendsEnrolled > 0 && (
-          <span className="absolute left-1/2 transform -translate-x-1/2 bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full text-sm">
-            {friendsEnrolled} friend{friendsEnrolled > 1 ? 's' : ''} enrolled
-          </span>
-        )}
+    return (
+        <>
+            <div
+                onClick={openModal}
+                className="bg-white rounded-lg px-4 py-3 shadow-sm cursor-pointer hover:shadow-md transition"
+            >
+                <div className="flex items-center">
+                    <h2 className="text-lg text-black z-10 mr-auto">
+                        <b>{course.code}</b> {course.title}
+                    </h2>
 
-        <div className="flex items-center space-x-1 z-10">
-          <User className="w-6 h-6 text-gray-800" />
-          <span className="text-gray-700">{totalEnrolled}</span>
-        </div>
-      </div>
+                    {course.friends_enrolled > 0 && (
+                        <span className="absolute left-1/2 transform -translate-x-1/2 bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full text-sm">
+                            {course.friends_enrolled} friend{course.friends_enrolled > 1 ? "s" : ""} enrolled
+                        </span>
+                    )}
 
-      <CourseModal
-        isOpen={isOpen}
-        onClose={closeModal}
-        courseId={courseId}
-        courseTitle={courseTitle}
-        description={description}
-        totalEnrolled={totalEnrolled}
-        friendsEnrolled={friendsEnrolled}
-        enrolled={enrolled}
-        enrolledUsers={enrolledUsers}
-      />
-    </>
-  );
+                    <div className="flex items-center space-x-1 z-10">
+                        <User className="w-6 h-6 text-gray-800" />
+                        <span className="text-gray-700">{course.total_enrolled}</span>
+                    </div>
+                </div>
+
+                {course.description !== course.title && (
+                    <p className="text-slate-500">{truncate(course.description, 200)}</p>
+                )}
+            </div>
+
+            <CourseModal isOpen={isOpen} onClose={closeModal} course={course} />
+        </>
+    );
 }
