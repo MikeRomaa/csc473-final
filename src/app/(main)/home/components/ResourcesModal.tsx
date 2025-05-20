@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+"use client";
+
+import React, { useState, useEffect } from "react";
 import {
   FileText,
   Code as CodeIcon,
@@ -6,31 +8,39 @@ import {
   Download,
   X,
   ChevronDown,
-} from 'lucide-react';
-import { ResourceItem } from './Resources';
+} from "lucide-react";
+import { ResourceItem } from "./Resources";
+import { uploadResourceAction } from "../actions_resources";
 
 export type ResourcesModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  courseId: string;
-  courseTitle: string;
-  courses: string[];
-  resources: ResourceItem[];
+  isOpen:            boolean;
+  onClose:           () => void;
+  enrolledCourses:   { id: string; code: string; title: string }[];
+  initialCourse:     { id: string; code: string; title: string };
+  resources:         ResourceItem[];
 };
 
 export default function ResourcesModal({
   isOpen,
   onClose,
-  courseId,
-  courseTitle,
-  courses,
+  enrolledCourses,
+  initialCourse,
   resources,
 }: ResourcesModalProps) {
-  const [selectedCourse, setSelectedCourse] = useState(courseId);
-  const [isDropdownOpen, setDropdownOpen] = useState(true);
+  const [selectedCourseId, setSelectedCourseId]       = useState(initialCourse.id);
+  const [selectedCourseCode, setSelectedCourseCode]   = useState(initialCourse.code);
+  const [selectedCourseTitle, setSelectedCourseTitle] = useState(initialCourse.title);
+  const [isDropdownOpen, setDropdownOpen]             = useState(true);
+
+  useEffect(() => {
+    const sel = enrolledCourses.find(c => c.id === selectedCourseId);
+    if (sel) {
+      setSelectedCourseCode(sel.code);
+      setSelectedCourseTitle(sel.title);
+    }
+  }, [selectedCourseId, enrolledCourses]);
 
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25">
       <div className="bg-white rounded-xl w-11/12 max-w-3xl p-6 relative">
@@ -43,8 +53,8 @@ export default function ResourcesModal({
 
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl text-black font-bold">{selectedCourse}</h2>
-            <h3 className="text-xl text-black">{courseTitle}</h3>
+            <h2 className="text-2xl text-black font-bold">{selectedCourseCode}</h2>
+            <h3 className="text-xl text-black">{selectedCourseTitle}</h3>
           </div>
 
           <div className="relative">
@@ -57,16 +67,16 @@ export default function ResourcesModal({
 
             {isDropdownOpen && (
               <ul className="absolute right-0 mt-2 text-gray-800 bg-white border rounded shadow-lg">
-                {courses.map((c) => (
-                  <li key={c}>
+                {enrolledCourses.map((c) => (
+                  <li key={c.code}>
                     <button
                       className="w-full text-left px-4 py-2 hover:bg-gray-100"
                       onClick={() => {
-                        setSelectedCourse(c);
+                        setSelectedCourseId(c.id);
                         setDropdownOpen(false);
                       }}
                     >
-                      {c}
+                      {c.code}
                     </button>
                   </li>
                 ))}
@@ -78,9 +88,9 @@ export default function ResourcesModal({
         <div className="divide-y divide-gray-200 mb-6 max-h-80 overflow-y-auto">
           {resources.map((r) => {
             const Icon =
-              r.resourceType === 'code' ? (
+              r.resourceType === "code" ? (
                 <CodeIcon className="w-6 h-6 text-gray-800" />
-              ) : r.resourceType === 'presentation' ? (
+              ) : r.resourceType === "presentation" ? (
                 <Presentation className="w-6 h-6 text-gray-800" />
               ) : (
                 <FileText className="w-6 h-6 text-gray-800" />
@@ -99,9 +109,25 @@ export default function ResourcesModal({
           })}
         </div>
 
-        <button className="bg-purple-700 hover:bg-purple-900 text-white w-full py-2 rounded-full">
-          Upload Resources
-        </button>
+        <form action={uploadResourceAction}>
+          <input
+            type="hidden"
+            name="courseCode"
+            value={selectedCourseCode}
+          />
+          <input
+            type="file"
+            name="file"
+            required
+            className="block w-full mb-2 text-black"
+          />
+          <button
+            type="submit"
+            className="bg-purple-700 hover:bg-purple-900 text-white w-full py-2 rounded-full"
+          >
+            Upload Resources
+          </button>
+        </form>
       </div>
     </div>
   );

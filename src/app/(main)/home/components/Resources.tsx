@@ -1,25 +1,29 @@
-'use client';
-import React, { useState } from 'react';
-import { FileText, Code as CodeIcon, Presentation } from 'lucide-react';
-import ResourcesModal from './ResourcesModal';
+"use client";
+
+import React, { useState } from "react";
+import { FileText, Code as CodeIcon, Presentation } from "lucide-react";
+import ResourcesModal from "./ResourcesModal";
 
 export interface ResourceItem {
-  id: string;
-  title: string;
-  resourceType: 'document' | 'presentation' | 'code';
-  url: string;
+  id:           string;
+  title:        string;
+  resourceType: "document" | "presentation" | "code";
+  url:          string;
 }
 
 export interface ResourcesProps {
   resources: ResourceItem[];
+
+  enrolledCourses: { id: string; code: string; title: string }[];
+  initialCourse:   { id: string; code: string; title: string };
 }
 
-export default function Resources({ resources }: ResourcesProps) {
+export default function Resources({
+  resources,
+  enrolledCourses,
+  initialCourse,
+}: ResourcesProps) {
   const [isModalOpen, setModalOpen] = useState(false);
-
-  // Sample courses and title
-  const coursesList = ['Anth 20100', 'Phys 20700', 'Math 10100'];
-  const courseTitle = 'Cross-Cultural Perspectives';
 
   return (
     <>
@@ -28,9 +32,9 @@ export default function Resources({ resources }: ResourcesProps) {
         <ul className="space-y-3 mb-4">
           {resources.map((r) => {
             const Icon =
-              r.resourceType === 'code' ? (
+              r.resourceType === "code" ? (
                 <CodeIcon className="w-5 h-5 text-gray-800" />
-              ) : r.resourceType === 'presentation' ? (
+              ) : r.resourceType === "presentation" ? (
                 <Presentation className="w-5 h-5 text-gray-800" />
               ) : (
                 <FileText className="w-5 h-5 text-gray-800" />
@@ -56,9 +60,8 @@ export default function Resources({ resources }: ResourcesProps) {
       <ResourcesModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
-        courseId="Anth 20100"
-        courseTitle={courseTitle}
-        courses={coursesList}
+        enrolledCourses={enrolledCourses}
+        initialCourse={initialCourse}
         resources={resources}
       />
     </>

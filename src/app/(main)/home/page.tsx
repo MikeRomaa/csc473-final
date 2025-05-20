@@ -1,11 +1,5 @@
-"use client";
+import HomeServer from "./components/HomeServer";
 
-import Home from "./components/Home";
-
-export default function Page() {
-  return (
-    <div className="relative">
-        <Home/>
-    </div>
-  );
+export default async function Page() {
+  return <HomeServer />;
 }

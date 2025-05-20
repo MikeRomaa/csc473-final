@@ -38,3 +38,25 @@ CREATE TABLE IF NOT EXISTS friends (
     FOREIGN KEY (user_a) REFERENCES user(id),
     FOREIGN KEY (user_b) REFERENCES user(id)
 );
+
+-- posts
+CREATE TABLE IF NOT EXISTS posts (
+  id           INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+  user_id      INT UNSIGNED      NOT NULL,
+  course_code  VARCHAR(100)      NOT NULL,
+  post         TEXT              NOT NULL,
+  created_at   DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  replies      JSON              NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id)     REFERENCES `user`(id),
+  FOREIGN KEY (course_code) REFERENCES course(code)
+);
+
+-- resources
+CREATE TABLE IF NOT EXISTS resources (
+  id           INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+  course_code  VARCHAR(100)      NOT NULL,
+  resource     LONGBLOB          NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (course_code) REFERENCES course(code)
+);
