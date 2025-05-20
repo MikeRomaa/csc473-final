@@ -31,6 +31,7 @@ services:
       - 3000:3000
     volumes:
       - .:/app
+      - /app/node_modules
       - /app/.next
     environment:
       SECRET_KEY: 486c53069c1e6b876da5bf5c6e08e7dd

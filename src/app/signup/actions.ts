@@ -35,5 +35,3 @@ export async function register(formData: FormData): Promise<State> {
 
   return { data: user };
 }
-
-export async function checkIfEmailExist() {}

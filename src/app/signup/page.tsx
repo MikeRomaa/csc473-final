@@ -37,10 +37,11 @@ export default function Signup() {
     formObj.append("confirmPassword", formData.confirmPassword);
 
     try {
-      console.log("triggered");
       const { data } = await register(formObj);
       if (data && "error" in data) {
         console.log(data.error);
+      } else {
+        console.log(data);
       }
     } catch (error) {
       toast.error("Something went wrong: " + String(error), { duration: 2000 });

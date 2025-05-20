@@ -41,11 +41,14 @@ export async function getUser(
             email,
             password_hash,
             first_name,
-            last_name,
+            last_name
         FROM user
         WHERE user.email = :email`,
     { email }
   );
+
+  console.log(res);
+  console.log(email);
 
   if (res.length !== 1) {
     return null;
@@ -77,7 +80,6 @@ export async function createUser(
   last_name: string
 ): Promise<number | null> {
   const hash = await argon2.hash(password, ARGON_OPTIONS);
-  console.log("createUser");
 
   try {
     const [res] = await pool.execute<ResultSetHeader>(
@@ -85,7 +87,6 @@ export async function createUser(
             VALUES (:first_name, :last_name, :email, :hash)`,
       { first_name, last_name, email, hash }
     );
-
     return res.insertId;
   } catch (e) {
     console.error(e);

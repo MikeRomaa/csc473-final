@@ -6,7 +6,16 @@ const CONFIG: PoolOptions = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   namedPlaceholders: true,
-  port: 3307,
+  port: 3306,
 };
+
+console.log(
+  process.env.DB_HOST,
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD
+);
+
+console.log("inpool");
 
 export const pool = mysql.createPool(CONFIG).promise();
