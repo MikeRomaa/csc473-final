@@ -1,15 +1,18 @@
 "use server";
 
+import { createPost , addReply } from "@/db/posts";
 import { getCurrentUser } from "@/lib/cookies";
-import { createPost, addReply } from "@/db/posts";
 
 export async function createPostAction(formData: FormData) {
+  "use server";
   const user = await getCurrentUser();
-  if (!user) throw new Error("Not signed in");
+  if (!user) throw new Error("Not authenticated");
 
-  const text = (formData.get("text") as string) || "";
-  const courseId = Number(formData.get("courseId"));
-  await createPost(user.id, courseId, text);
+  const text       = String(formData.get("text")       ?? "");
+  const courseCode = String(formData.get("courseCode") ?? "");
+
+  if (!courseCode) throw new Error("Missing courseCode");
+  await createPost(user.id, courseCode, text);
 }
 
 export async function addReplyAction(formData: FormData) {

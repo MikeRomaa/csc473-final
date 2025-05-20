@@ -1,10 +1,13 @@
-// components/PostCard.tsx
+// src/app/(main)/home/components/PostCard.tsx
 "use client";
 
 import React from "react";
 import { User } from "lucide-react";
 
-export interface CourseOption { id: string; label: string; }
+export interface CourseOption {
+  id: string;    
+  label: string; 
+}
 
 export interface PostCardProps {
   courses: CourseOption[];
@@ -24,9 +27,16 @@ export default function PostCard({ courses, action }: PostCardProps) {
         />
       </div>
       <div className="flex justify-between items-center">
-        <select name="courseId" className="px-4 py-2 border border-black bg-purple-700 hover:bg-purple-900 rounded-full text-white">
-          {courses.map(c => (
-            <option key={c.id} value={c.id}>{c.label}</option>
+        <select
+          name="courseCode"                     
+          defaultValue={courses[0]?.label}
+          className="px-4 py-2 border border-black bg-purple-700 hover:bg-purple-900 rounded-full text-white"
+        >
+          {courses.map((c) => (
+            <option key={c.label}            
+                    value={c.label}>          
+              {c.label}
+            </option>
           ))}
         </select>
         <button

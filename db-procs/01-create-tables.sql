@@ -39,34 +39,24 @@ CREATE TABLE IF NOT EXISTS friends (
     FOREIGN KEY (user_b) REFERENCES user(id)
 );
 
--- New table: simplified enrollment
-CREATE TABLE IF NOT EXISTS enrolled_course (
-    id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    user_id    INT UNSIGNED NOT NULL,
-    course_id  INT UNSIGNED NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (user_id)   REFERENCES `user`(id),
-    FOREIGN KEY (course_id) REFERENCES course(id)
-);
-
--- New table: posts (with JSON field for replies)
+-- posts
 CREATE TABLE IF NOT EXISTS posts (
-    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    user_id     INT UNSIGNED NOT NULL,
-    course_id   INT UNSIGNED NOT NULL,
-    post        TEXT         NOT NULL,
-    created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    replies     JSON         NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (user_id)   REFERENCES `user`(id),
-    FOREIGN KEY (course_id) REFERENCES course(id)
+  id           INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+  user_id      INT UNSIGNED      NOT NULL,
+  course_code  VARCHAR(100)      NOT NULL,
+  post         TEXT              NOT NULL,
+  created_at   DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  replies      JSON              NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id)     REFERENCES `user`(id),
+  FOREIGN KEY (course_code) REFERENCES course(code)
 );
 
--- New table: resources
+-- resources
 CREATE TABLE IF NOT EXISTS resources (
-    id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    course_id  INT UNSIGNED NOT NULL,
-    resource   LONGBLOB     NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (course_id) REFERENCES course(id)
+  id           INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+  course_code  VARCHAR(100)      NOT NULL,
+  resource     LONGBLOB          NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (course_code) REFERENCES course(code)
 );

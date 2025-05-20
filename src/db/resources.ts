@@ -3,39 +3,41 @@ import type { RowDataPacket, ResultSetHeader } from "mysql2";
 
 export interface ResourceRow extends RowDataPacket {
   id: number;
-  course_id: number;
+  course_code: string;
   resource: Buffer;
 }
 
-/** fetch all resource‐IDs for a given course */
-export async function getResourcesByCourse(courseId: number): Promise<number[]> {
+export async function getResourcesByCourse(courseCode: string): Promise<number[]> {
   const [rows] = await pool.query<ResourceRow[]>(
-    `SELECT id FROM resources WHERE course_id = ?`,
-    [courseId]
+    `SELECT id
+       FROM resources
+      WHERE course_code = ?`,
+    [courseCode]
   );
   return rows.map(r => r.id);
 }
 
-/** fetch the blob for one resource */
 export async function getResourceById(
   id: number
 ): Promise<Buffer | null> {
   const [rows] = await pool.query<ResourceRow[]>(
-    `SELECT resource FROM resources WHERE id = ?`,
+    `SELECT resource
+       FROM resources
+      WHERE id = ?`,
     [id]
   );
   if (!rows.length) return null;
   return rows[0].resource;
 }
 
-/** insert one new file blob and return its new ID */
 export async function addResource(
-  courseId: number,
+  courseCode: string,
   data: Buffer
 ): Promise<number> {
   const [res] = await pool.execute<ResultSetHeader>(
-    `INSERT INTO resources (course_id, resource) VALUES (?, ?)`,
-    [courseId, data]
+    `INSERT INTO resources (course_code, resource)
+      VALUES (?, ?)`,
+    [courseCode, data]
   );
   return res.insertId;
 }

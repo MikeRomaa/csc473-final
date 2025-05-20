@@ -23,34 +23,38 @@ export default async function HomeServer() {
   }
 
   const [coursesRows, feed] = await Promise.all([
-    getMyCourses(user.id), 
-    getFeed(),             
+    getMyCourses(user.id),
+    getFeed(),
   ]);
 
-  const courseOptions = coursesRows.map(c => ({
+  const courseOptions = coursesRows.map((c) => ({
     id:    String(c.id),
     label: c.code,
   }));
 
-  const enrolledCourses = coursesRows.map(c => ({
+  const enrolledCourses = coursesRows.map((c) => ({
     id:    String(c.id),
     code:  c.code,
     title: c.title,
   }));
-  const initialCourse = enrolledCourses[0] || { id: "", code: "", title: "" };
 
-  const resourceIds = initialCourse.id
-    ? await getResourcesByCourse(Number(initialCourse.id))
+  const initialCourse =
+    enrolledCourses.length > 0
+      ? enrolledCourses[0]
+      : { id: "", code: "", title: "" };
+
+  const resourceIds = initialCourse.code
+    ? await getResourcesByCourse(initialCourse.code)
     : [];
-  const resources: ResourceItem[] = resourceIds.map(rid => ({
+
+  const resources: ResourceItem[] = resourceIds.map((rid) => ({
     id:           String(rid),
-    title:        `Resource ${rid}`,  
+    title:        `Resource ${rid}`,
     resourceType: "document",
     url:          `/resources/${rid}`,
   }));
 
-const friends: Friend[] = await getMutualFriends(user.id);
-
+  const friends: Friend[] = await getMutualFriends(user.id);
 
   return (
     <HomeClient
@@ -60,7 +64,6 @@ const friends: Friend[] = await getMutualFriends(user.id);
       friends={friends}
       createPostAction={createPostAction}
       addReplyAction={addReplyAction}
-
       enrolledCourses={enrolledCourses}
       initialCourse={initialCourse}
     />

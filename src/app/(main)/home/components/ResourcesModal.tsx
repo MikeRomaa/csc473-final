@@ -15,7 +15,6 @@ import { uploadResourceAction } from "../actions_resources";
 export type ResourcesModalProps = {
   isOpen:            boolean;
   onClose:           () => void;
-
   enrolledCourses:   { id: string; code: string; title: string }[];
   initialCourse:     { id: string; code: string; title: string };
   resources:         ResourceItem[];
@@ -28,10 +27,10 @@ export default function ResourcesModal({
   initialCourse,
   resources,
 }: ResourcesModalProps) {
-  const [selectedCourseId, setSelectedCourseId]           = useState(initialCourse.id);
-  const [selectedCourseCode, setSelectedCourseCode]       = useState(initialCourse.code);
-  const [selectedCourseTitle, setSelectedCourseTitle]     = useState(initialCourse.title);
-  const [isDropdownOpen, setDropdownOpen]                 = useState(true);
+  const [selectedCourseId, setSelectedCourseId]       = useState(initialCourse.id);
+  const [selectedCourseCode, setSelectedCourseCode]   = useState(initialCourse.code);
+  const [selectedCourseTitle, setSelectedCourseTitle] = useState(initialCourse.title);
+  const [isDropdownOpen, setDropdownOpen]             = useState(true);
 
   useEffect(() => {
     const sel = enrolledCourses.find(c => c.id === selectedCourseId);
@@ -42,7 +41,6 @@ export default function ResourcesModal({
   }, [selectedCourseId, enrolledCourses]);
 
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25">
       <div className="bg-white rounded-xl w-11/12 max-w-3xl p-6 relative">
@@ -55,12 +53,8 @@ export default function ResourcesModal({
 
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl text-black font-bold">
-              {selectedCourseCode}
-            </h2>
-            <h3 className="text-xl text-black">
-              {selectedCourseTitle}
-            </h3>
+            <h2 className="text-2xl text-black font-bold">{selectedCourseCode}</h2>
+            <h3 className="text-xl text-black">{selectedCourseTitle}</h3>
           </div>
 
           <div className="relative">
@@ -74,7 +68,7 @@ export default function ResourcesModal({
             {isDropdownOpen && (
               <ul className="absolute right-0 mt-2 text-gray-800 bg-white border rounded shadow-lg">
                 {enrolledCourses.map((c) => (
-                  <li key={c.id}>
+                  <li key={c.code}>
                     <button
                       className="w-full text-left px-4 py-2 hover:bg-gray-100"
                       onClick={() => {
@@ -107,10 +101,7 @@ export default function ResourcesModal({
                   {Icon}
                   <span className="text-gray-900">{r.title}</span>
                 </div>
-                <a
-                  href={r.url}
-                  className="text-gray-700 hover:text-gray-900"
-                >
+                <a href={r.url} className="text-gray-700 hover:text-gray-900">
                   <Download className="w-6 h-6 hover:bg-gray-300" />
                 </a>
               </div>
@@ -119,8 +110,17 @@ export default function ResourcesModal({
         </div>
 
         <form action={uploadResourceAction}>
-          <input type="hidden" name="courseId" value={selectedCourseId} />
-          <input type="file" name="file" required className="block w-full mb-2 text-black" />
+          <input
+            type="hidden"
+            name="courseCode"
+            value={selectedCourseCode}
+          />
+          <input
+            type="file"
+            name="file"
+            required
+            className="block w-full mb-2 text-black"
+          />
           <button
             type="submit"
             className="bg-purple-700 hover:bg-purple-900 text-white w-full py-2 rounded-full"

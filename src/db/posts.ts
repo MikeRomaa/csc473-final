@@ -1,3 +1,4 @@
+// src/db/posts.ts
 import { pool } from "@/db/index";
 
 export interface Reply {
@@ -17,17 +18,19 @@ export interface Post {
 
 export async function getFeed(): Promise<Post[]> {
   const [rows] = await pool.query<any[]>(
-    `SELECT
-       p.id,
-       CONCAT(u.first_name,' ',u.last_name) AS authorName,
-       c.code AS courseCode,
-       p.post,
-       p.created_at,
-       COALESCE(p.replies, JSON_ARRAY()) AS repliesJson
-     FROM posts p
-     JOIN user u ON u.id = p.user_id
-     JOIN course c ON c.id = p.course_id
-     ORDER BY p.created_at DESC`
+    `
+      SELECT
+        p.id,
+        CONCAT(u.first_name, ' ', u.last_name) AS authorName,
+        c.code                            AS courseCode,
+        p.post,
+        p.created_at,
+        COALESCE(p.replies, JSON_ARRAY()) AS repliesJson
+      FROM posts p
+      JOIN \`user\`   u ON u.id   = p.user_id
+      JOIN \`course\` c ON c.code = p.course_code
+      ORDER BY p.created_at DESC
+    `
   );
 
   return rows.map(r => {
@@ -40,12 +43,12 @@ export async function getFeed(): Promise<Post[]> {
       text = raw;
     } else {
       return {
-        id: r.id,
+        id:       r.id,
         authorName: r.authorName,
         courseCode: r.courseCode,
-        post: r.post,
+        post:       r.post,
         created_at: r.created_at,
-        replies: raw as Reply[],    
+        replies:    raw as Reply[],
       };
     }
 
@@ -59,20 +62,20 @@ export async function getFeed(): Promise<Post[]> {
     }
 
     return {
-      id: r.id,
+      id:         r.id,
       authorName: r.authorName,
       courseCode: r.courseCode,
-      post: r.post,
+      post:       r.post,
       created_at: r.created_at,
       replies,
     };
   });
 }
 
-export async function createPost(userId: number, courseId: number, text: string) {
+export async function createPost(userId: number, courseCode: string, text: string) {
   await pool.execute(
-    `INSERT INTO posts (user_id, course_id, post) VALUES (?, ?, ?)`,
-    [userId, courseId, text]
+    `INSERT INTO posts (user_id, course_code, post) VALUES (?, ?, ?)`,
+    [userId, courseCode, text]
   );
 }
 
