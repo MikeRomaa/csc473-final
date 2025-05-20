@@ -1,11 +1,19 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { User } from 'lucide-react'
+import Link from "next/link";
+import { redirect, usePathname } from "next/navigation";
+import { User } from "lucide-react";
+import { signOut } from "../(main)/actions/logout";
+import { useState } from "react";
+import Loading from "./loading";
 
 export default function Navbar() {
-  const pathname = usePathname()
+  const [loading, setLoading] = useState(false);
+  const pathname = usePathname();
+
+  if (loading) {
+    <Loading />;
+  }
 
   return (
     <nav className="bg-black w-full px-6 py-4 flex items-center">
@@ -17,9 +25,9 @@ export default function Navbar() {
         <Link
           href="/home"
           className={
-            pathname === '/home'
-              ? 'text-purple-600'
-              : 'text-white hover:text-purple-500'
+            pathname === "/home"
+              ? "text-purple-600"
+              : "text-white hover:text-purple-500"
           }
         >
           Dashboard
@@ -27,9 +35,9 @@ export default function Navbar() {
         <Link
           href="/friends"
           className={
-            pathname === '/friends'
-              ? 'text-purple-600'
-              : 'text-white hover:text-purple-500'
+            pathname === "/friends"
+              ? "text-purple-600"
+              : "text-white hover:text-purple-500"
           }
         >
           Friends
@@ -37,21 +45,33 @@ export default function Navbar() {
         <Link
           href="/courses"
           className={
-            pathname === '/courses'
-              ? 'text-purple-600'
-              : 'text-white hover:text-purple-500'
+            pathname === "/courses"
+              ? "text-purple-600"
+              : "text-white hover:text-purple-500"
           }
         >
           Courses
         </Link>
-              <Link href="/profile" className={
-            pathname === '/profile'
-              ? 'text-purple-600'
-              : 'text-white hover:text-purple-500'
-          }>
-        <User className="w-8 h-8" />
-      </Link>
+        <Link
+          href="/profile"
+          className={
+            pathname === "/profile"
+              ? "text-purple-600"
+              : "text-white hover:text-purple-500"
+          }
+        >
+          <User className="w-8 h-8" />
+        </Link>
+        <button
+          onClick={async () => {
+            await signOut();
+            setLoading(true);
+            redirect("/login");
+          }}
+        >
+          sign out
+        </button>
       </div>
     </nav>
-  )
+  );
 }
