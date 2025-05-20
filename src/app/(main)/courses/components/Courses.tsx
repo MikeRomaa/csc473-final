@@ -18,13 +18,15 @@ export default function Courses() {
     }, [query]);
 
     return (
-        <div className="h-screen p-4">
-            <SearchCourses onChange={setQuery} />
+        <div className="min-h-screen py-8 px-6">
+            <div className="container mx-auto">
+                <SearchCourses onChange={setQuery} />
 
-            <div className="mt-4 grid grid-cols-3 gap-5">
-                {results.map((course) => (
-                    <CourseList key={course.code} course={course} />
-                ))}
+                <div className="mt-4 grid grid-cols-3 gap-5">
+                    {results.map((course) => (
+                        <CourseList key={course.code} course={course} />
+                    ))}
+                </div>
             </div>
         </div>
     );
