@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar";
 import toast, { Toaster } from "react-hot-toast";
+import { checkForCurrentSession } from "./(main)/actions/activeSession";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,17 +20,18 @@ export const metadata: Metadata = {
   description: "Connect with your peers today!",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isActiveSession = await checkForCurrentSession();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
+        <Navbar isActiveSession={isActiveSession} />
         <Toaster />
         {children}
       </body>
