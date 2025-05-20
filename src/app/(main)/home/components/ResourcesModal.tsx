@@ -120,7 +120,7 @@ export default function ResourcesModal({
 
         <form action={uploadResourceAction}>
           <input type="hidden" name="courseId" value={selectedCourseId} />
-          <input type="file" name="file" required className="block w-full mb-2" />
+          <input type="file" name="file" required className="block w-full mb-2 text-black" />
           <button
             type="submit"
             className="bg-purple-700 hover:bg-purple-900 text-white w-full py-2 rounded-full"

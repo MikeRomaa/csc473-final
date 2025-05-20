@@ -1,16 +1,16 @@
 import React from "react";
 import HomeClient from "./HomeClient";
 
-import { getCurrentUser }       from "@/lib/cookies";
-import { getMyCourses }         from "@/db/courses";
-import { getFeed }              from "@/db/posts";
+import { getCurrentUser } from "@/lib/cookies";
+import { getMyCourses } from "@/db/courses";
+import { getFeed } from "@/db/posts";
 import { getResourcesByCourse } from "@/db/resources";
 import { createPostAction, addReplyAction } from "../actions";
-
-import type { CourseRow }    from "@/db/courses";
-import type { Post }         from "@/db/posts";
+import type { Friend } from "@/db/MutualFriends";
+import { getMutualFriends } from "@/db/MutualFriends";
+import type { CourseRow } from "@/db/courses";
+import type { Post } from "@/db/posts";
 import type { ResourceItem } from "./Resources";
-import type { Friend }       from "./MutualFriends";
 
 export default async function HomeServer() {
   const user = await getCurrentUser();
@@ -49,11 +49,8 @@ export default async function HomeServer() {
     url:          `/resources/${rid}`,
   }));
 
-  const friends: Friend[] = [
-    { id: "f1", name: "Olu Kukoyi", mutualCourses: 2 },
-    { id: "f2", name: "Jane Doe",   mutualCourses: 1 },
-    { id: "f3", name: "John Smith", mutualCourses: 3 },
-  ];
+const friends: Friend[] = await getMutualFriends(user.id);
+
 
   return (
     <HomeClient
