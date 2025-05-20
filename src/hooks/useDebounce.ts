@@ -8,9 +8,13 @@ export function useDebouncedState<T>(initialValue: T, delay = 250): [T, (value: 
         (value: T) => {
             if (timeout.current) {
                 window.clearTimeout(timeout.current);
+                timeout.current = null;
             }
 
-            timeout.current = window.setTimeout(() => setDebounced(value), delay);
+            timeout.current = window.setTimeout(() => {
+                setDebounced(value);
+                timeout.current = null;
+            }, delay);
         },
         [delay],
     );
