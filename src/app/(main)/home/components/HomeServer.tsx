@@ -2,13 +2,13 @@ import React from "react";
 import HomeClient from "./HomeClient";
 
 import { getCurrentUser } from "@/lib/cookies";
-import { getMyCourses } from "@/db/courses";
+import { getMyCourses } from "@/db/enrolledCourses";
 import { getFeed } from "@/db/posts";
 import { getResourcesByCourse } from "@/db/resources";
 import { createPostAction, addReplyAction } from "../actions";
 import type { Friend } from "@/db/MutualFriends";
 import { getMutualFriends } from "@/db/MutualFriends";
-import type { CourseRow } from "@/db/courses";
+import type { CourseRow } from "@/db/enrolledCourses";
 import type { Post } from "@/db/posts";
 import type { ResourceItem } from "./Resources";
 

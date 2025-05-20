@@ -1,17 +1,12 @@
 import React from "react";
 import { User } from "lucide-react";
-
-export interface Friend {
-  id: string;
-  name: string;
-  avatarUrl?: string;
-}
+import { FriendType } from "../action";
 
 interface FriendsListProps {
-  friends: Friend[];
-  onViewProfile: (id: string) => void;
-  onMessage: (id: string) => void;
-  onRemoveFriend: (id: string) => void;
+  friends?: FriendType[] | undefined;
+  onViewProfile: (id: number) => void;
+  onMessage: (id: number) => void;
+  onRemoveFriend: (id: number) => void;
 }
 
 const FriendsList: React.FC<FriendsListProps> = ({
@@ -22,7 +17,7 @@ const FriendsList: React.FC<FriendsListProps> = ({
 }) => {
   return (
     <div className="space-y-4 w-full">
-      {friends.map((friend) => (
+      {friends?.map((friend) => (
         <div
           key={friend.id}
           className="bg-white rounded-lg p-4 flex items-center justify-between w-full"
@@ -31,7 +26,9 @@ const FriendsList: React.FC<FriendsListProps> = ({
             <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
               <User className="w-8 h-8 text-gray-800" />
             </div>
-            <span className="ml-4 text-lg font-medium text-black">{friend.name}</span>
+            <span className="ml-4 text-lg font-medium text-black">
+              {friend.first_name} {friend.last_name}
+            </span>
           </div>
           <div className="flex space-x-2">
             <button
