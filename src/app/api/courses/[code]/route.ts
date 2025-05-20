@@ -1,9 +1,15 @@
 import type { NextRequest } from "next/server";
 
-import { enroll, unenroll } from "@/db/courses";
+import { enroll, getEnrolled, unenroll } from "@/db/courses";
 import { getCurrentUser } from "@/lib/cookies";
 
 type Parameters = Promise<{ code: string }>;
+
+export async function GET(_: NextRequest, { params }: { params: Parameters }): Promise<Response> {
+    const { code } = await params;
+
+    return Response.json({ enrolled: await getEnrolled(code) });
+}
 
 export async function POST(_: NextRequest, { params }: { params: Parameters }): Promise<Response> {
     const user = await getCurrentUser();

@@ -57,6 +57,32 @@ export async function searchCourses(query: string, user_id: number | null): Prom
     return results;
 }
 
+interface EnrolledRow extends RowDataPacket {
+    name: string;
+}
+
+export async function getEnrolled(code: string): Promise<string[]> {
+    const [results] = await pool.execute<EnrolledRow[]>(
+        `SELECT
+            CONCAT(user.first_name, ' ', user.last_name) AS name
+        FROM
+            user_course
+        JOIN
+            user
+        ON
+            user_course.user_id = user.id
+        JOIN
+            course
+        ON
+            user_course.course_code = course.code
+        WHERE
+            user_course.course_code = :code`,
+        { code },
+    );
+
+    return results.map(({ name }) => name);
+}
+
 export async function enroll(user_id: number, code: string): Promise<void> {
     await pool.execute(
         `INSERT INTO

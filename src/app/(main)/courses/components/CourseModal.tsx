@@ -1,5 +1,5 @@
 import { User, X } from "lucide-react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import type { Course } from "@/db/courses";
@@ -10,13 +10,13 @@ export type EnrolledUser = {
 };
 
 type CourseModalProps = {
-    isOpen: boolean;
     onClose: () => void;
     course: Course;
 };
 
 export default function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
     const [enrolled, setEnrolled] = useState<boolean>(course.enrolled);
+    const [students, setStudents] = useState<string[] | undefined>(undefined);
 
     const enroll = useCallback(() => {
         fetch(`/api/courses/${course.code}`, { method: "POST" })
@@ -46,7 +46,11 @@ export default function CourseModal({ isOpen, onClose, course }: CourseModalProp
             .catch(() => toast.error("Failed to enroll: Unable to send request", { duration: 3500 }));
     }, [course]);
 
-    if (!isOpen) return null;
+    useEffect(() => {
+        fetch(`/api/courses/${course.code}`)
+            .then((res) => res.json())
+            .then(({ enrolled }) => setStudents(enrolled));
+    }, [course]);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 bg-opacity-50">
@@ -94,17 +98,21 @@ export default function CourseModal({ isOpen, onClose, course }: CourseModalProp
                 <div>
                     <h4 className="font-bold text-black mb-2">Enrolled</h4>
                     <ul className="space-y-4 max-h-64 overflow-y-auto">
-                        {/* {course.enrolledUsers.map((user) => (
-                            <li key={user.id} className="flex items-center justify-between">
-                                <div className="flex items-center space-x-4">
-                                    <div className="w-10 h-10 bg-gray-200 rounded-full" />
-                                    <span className="text-gray-900">{user.name}</span>
-                                </div>
-                                <button className="px-4 py-2 bg-purple-700 hover:bg-purple-900 text-white rounded">
-                                    View Profile
-                                </button>
-                            </li>
-                        ))} */}
+                        {students === undefined ? (
+                            <p>Loading students...</p>
+                        ) : (
+                            students.map((name) => (
+                                <li key={name} className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-4">
+                                        <div className="w-10 h-10 bg-gray-200 rounded-full" />
+                                        <span className="text-gray-900">{name}</span>
+                                    </div>
+                                    <button className="px-4 py-2 bg-purple-700 hover:bg-purple-900 text-white rounded">
+                                        View Profile
+                                    </button>
+                                </li>
+                            ))
+                        )}
                     </ul>
                 </div>
             </div>

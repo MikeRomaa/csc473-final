@@ -43,7 +43,7 @@ export default function CourseList({ course }: CourseListProps) {
                 )}
             </div>
 
-            <CourseModal isOpen={isOpen} onClose={closeModal} course={course} />
+            {isOpen && <CourseModal onClose={closeModal} course={course} />}
         </>
     );
 }
