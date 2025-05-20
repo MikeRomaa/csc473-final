@@ -34,3 +34,35 @@ CREATE TABLE IF NOT EXISTS user_course (
     FOREIGN KEY (user)   REFERENCES user(id),
     FOREIGN KEY (course) REFERENCES course(id)
 );
+
+-- New table: simplified enrollment
+CREATE TABLE IF NOT EXISTS enrolled_course (
+    id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id    INT UNSIGNED NOT NULL,
+    course_id  INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id)   REFERENCES `user`(id),
+    FOREIGN KEY (course_id) REFERENCES course(id)
+);
+
+-- New table: posts (with JSON field for replies)
+CREATE TABLE IF NOT EXISTS posts (
+    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id     INT UNSIGNED NOT NULL,
+    course_id   INT UNSIGNED NOT NULL,
+    post        TEXT         NOT NULL,
+    created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    replies     JSON         NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id)   REFERENCES `user`(id),
+    FOREIGN KEY (course_id) REFERENCES course(id)
+);
+
+-- New table: resources
+CREATE TABLE IF NOT EXISTS resources (
+    id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    course_id  INT UNSIGNED NOT NULL,
+    resource   LONGBLOB     NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (course_id) REFERENCES course(id)
+);
