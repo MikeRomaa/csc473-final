@@ -30,20 +30,11 @@ CREATE TABLE IF NOT EXISTS user_course (
 
 -- Junction table for friends
 CREATE TABLE IF NOT EXISTS friends (
-    user_a     INT UNSIGNED NOT NULL,
-    user_b     INT UNSIGNED NOT NULL,
+    user_a INT UNSIGNED NOT NULL,
+    user_b INT UNSIGNED NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (user_a, user_b),
     FOREIGN KEY (user_a) REFERENCES user(id),
     FOREIGN KEY (user_b) REFERENCES user(id)
-);
-
--- Junction table for friends
-CREATE TABLE IF NOT EXISTS friends (
-    user_a INT UNSIGNED NOT NULL,
-    user_b INT UNSIGNED NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    PRIMARY KEY (user_a, user_b)
 );
