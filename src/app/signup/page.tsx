@@ -41,6 +41,7 @@ export default function Signup() {
       if (data && "error" in data) {
         console.log(data.error);
       } else {
+        router.push("/home");
         console.log(data);
       }
     } catch (error) {
