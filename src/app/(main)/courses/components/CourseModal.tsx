@@ -14,7 +14,7 @@ type CourseModalProps = {
     course: Course;
 };
 
-export default function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
+export default function CourseModal({ onClose, course }: CourseModalProps) {
     const [enrolled, setEnrolled] = useState<boolean>(course.enrolled);
     const [students, setStudents] = useState<string[] | undefined>(undefined);
 

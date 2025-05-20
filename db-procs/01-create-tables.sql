@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS course (
 CREATE TABLE IF NOT EXISTS user_course (
     user_id     INT UNSIGNED NOT NULL,
     course_code VARCHAR(100) NOT NULL,
+    tutoring    BOOL DEFAULT FALSE,
 
     PRIMARY KEY (user_id, course_code),
     FOREIGN KEY (user_id)     REFERENCES user(id),

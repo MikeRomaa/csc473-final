@@ -61,7 +61,7 @@ interface EnrolledRow extends RowDataPacket {
     name: string;
 }
 
-export async function getEnrolled(code: string): Promise<string[]> {
+export async function getEnrolledByCode(code: string): Promise<string[]> {
     const [results] = await pool.execute<EnrolledRow[]>(
         `SELECT
             CONCAT(user.first_name, ' ', user.last_name) AS name
@@ -81,6 +81,36 @@ export async function getEnrolled(code: string): Promise<string[]> {
     );
 
     return results.map(({ name }) => name);
+}
+
+interface EnrolledCourseRow extends RowDataPacket {
+    code: string;
+    title: string;
+}
+
+export type EnrolledCourse = Pick<EnrolledCourseRow, "code" | "title">;
+
+export async function getEnrolledByUser(user_id: number): Promise<EnrolledCourse[]> {
+    const [results] = await pool.execute<EnrolledCourseRow[]>(
+        `SELECT
+            course.code AS code,
+            course.title AS title
+        FROM
+            user_course
+        JOIN
+            user
+        ON
+            user_course.user_id = user.id
+        JOIN
+            course
+        ON
+            user_course.course_code = course.code
+        WHERE
+            user_course.user_id = :user_id`,
+        { user_id },
+    );
+
+    return results;
 }
 
 export async function enroll(user_id: number, code: string): Promise<void> {
