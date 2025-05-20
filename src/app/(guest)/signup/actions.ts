@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { encryptCookie } from "@/utils/cookies";
+import { encryptCookie } from "@/lib/cookies";
 import { createUser, User } from "@/db/user";
 import { FormStatus, validateFormData } from "@/utils/form";
 import { registerSchema } from "./schema";

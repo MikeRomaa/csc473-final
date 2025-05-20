@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-import { encryptCookie } from "@/utils/cookies";
+import { encryptCookie } from "@/lib/cookies";
 import { signInSchema } from "./schema";
 import { FormStatus, validateFormData } from "@/utils/form";
 import { getUser, User } from "@/db/user";
