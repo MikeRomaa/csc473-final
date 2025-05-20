@@ -11,33 +11,36 @@ CREATE TABLE IF NOT EXISTS user (
 
 -- Main table for course data
 CREATE TABLE IF NOT EXISTS course (
-    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     code        VARCHAR(15)  NOT NULL,
     title       VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
 
-    PRIMARY KEY (id)
+    PRIMARY KEY (code)
 );
 
 -- Junction table for user course registrations
 CREATE TABLE IF NOT EXISTS user_course (
-    user_id   INT UNSIGNED NOT NULL,
-    course_id INT UNSIGNED NOT NULL,
-    professor VARCHAR(35)  NOT NULL,
-    year      YEAR         NOT NULL,
-    semester  ENUM('winter', 'spring', 'summer', 'fall') NOT NULL,
+    user_id     INT UNSIGNED NOT NULL,
+    course_code INT UNSIGNED NOT NULL,
+    professor   VARCHAR(35)  NOT NULL,
+    year        YEAR         NOT NULL,
+    semester    ENUM('winter', 'spring', 'summer', 'fall') NOT NULL,
 
     -- Optional, users are not required to share the grade they received
-    grade     ENUM('C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+') NULL,
+    grade       ENUM('C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+') NULL,
 
-    PRIMARY KEY (user_id, course_id, year, semester)
+    PRIMARY KEY (user_id, course_id, year, semester),
+    FOREIGN KEY (user_id)     REFERENCES user(id),
+    FOREIGN KEY (course_code) REFERENCES course(code)
 );
 
 -- Junction table for friends
 CREATE TABLE IF NOT EXISTS friends (
-    user_a INT UNSIGNED NOT NULL,
-    user_b INT UNSIGNED NOT NULL,
+    user_a     INT UNSIGNED NOT NULL,
+    user_b     INT UNSIGNED NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (user_a, user_b)
+    PRIMARY KEY (user_a, user_b),
+    FOREIGN KEY (user_a) REFERENCES user(id),
+    FOREIGN KEY (user_b) REFERENCES user(id)
 );

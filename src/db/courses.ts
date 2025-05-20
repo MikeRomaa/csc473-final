@@ -17,7 +17,7 @@ export type Course = Pick<
     "code" | "title" | "description" | "enrolled" | "total_enrolled" | "friends_enrolled"
 >;
 
-export async function searchCourses(query: string, user_id: number | null) {
+export async function searchCourses(query: string, user_id: number | null): Promise<Course[]> {
     const [results] = await pool.execute<CourseRow[]>(
         `SELECT
             code,
@@ -60,4 +60,25 @@ export async function searchCourses(query: string, user_id: number | null) {
     );
 
     return results;
+}
+
+export async function enroll(user_id: number, code: string): Promise<void> {
+    await pool.execute(
+        `INSERT INTO
+            user_course (user_id, course_code)
+        VALUES
+            (:user_id, :code)`,
+        { user_id, code },
+    );
+}
+
+export async function unenroll(user_id: number, code: string): Promise<void> {
+    await pool.execute(
+        `DELETE FROM
+            user_course
+        WHERE
+            user_id = :user_id AND
+            course_code = :code`,
+        { user_id, code },
+    );
 }

@@ -1,5 +1,6 @@
 import { User, X } from "lucide-react";
-import React from "react";
+import React, { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 
 import type { Course } from "@/db/courses";
 
@@ -15,12 +16,46 @@ type CourseModalProps = {
 };
 
 export default function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
+    const [enrolled, setEnrolled] = useState<boolean>(course.enrolled);
+
+    const enroll = useCallback(() => {
+        fetch(`/api/courses/${course.code}`, { method: "POST" })
+            .then((res) => {
+                if (!res.ok) {
+                    toast.error(`Failed to enroll: ${res.status} ${res.statusText}`, { duration: 3500 });
+                    return;
+                }
+
+                toast.success("Sucessfully enrolled", { duration: 3500 });
+                setEnrolled(true);
+            })
+            .catch(() => toast.error("Failed to enroll: Unable to send request", { duration: 3500 }));
+    }, [course]);
+
+    const unenroll = useCallback(() => {
+        fetch(`/api/courses/${course.code}`, { method: "DELETE" })
+            .then((res) => {
+                if (!res.ok) {
+                    toast.error(`Failed to unenroll: ${res.status} ${res.statusText}`, { duration: 3500 });
+                    return;
+                }
+
+                toast.success("Sucessfully unenrolled", { duration: 3500 });
+                setEnrolled(false);
+            })
+            .catch(() => toast.error("Failed to enroll: Unable to send request", { duration: 3500 }));
+    }, [course]);
+
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 bg-opacity-50">
             <div className="bg-white rounded-xl w-11/12 max-w-3xl p-6 relative">
-                <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                >
                     <X size={24} />
                 </button>
 
@@ -45,6 +80,8 @@ export default function CourseModal({ isOpen, onClose, course }: CourseModalProp
                 <p className="text-gray-700 mb-6">{course.description}</p>
 
                 <button
+                    type="button"
+                    onClick={enrolled ? unenroll : enroll}
                     className={`mb-6 px-4 py-2 rounded ${
                         course.enrolled
                             ? "bg-red-700 hover:bg-red-900 text-white "
