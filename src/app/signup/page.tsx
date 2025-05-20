@@ -37,12 +37,12 @@ export default function Signup() {
     formObj.append("confirmPassword", formData.confirmPassword);
 
     try {
-      const { data } = await register(formObj);
-      if (data && "error" in data) {
-        console.log(data.error);
+      const response = await register(formObj);
+      if (response.formError) {
+        console.log(response.formError);
       } else {
         router.push("/home");
-        console.log(data);
+        console.log(response.data);
       }
     } catch (error) {
       toast.error("Something went wrong: " + String(error), { duration: 2000 });

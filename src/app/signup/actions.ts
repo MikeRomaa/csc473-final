@@ -18,6 +18,13 @@ export async function register(formData: FormData): Promise<State> {
 
   const { first_name, last_name, email, password } = data;
 
+  if (!email.includes("@citymail.cuny.edu")) {
+    console.log("---------- 123 here");
+    return {
+      formError: "Must be from the '@citymail.cuny.edu' domain.",
+    };
+  }
+
   const id = await createUser(email, password, first_name, last_name);
   if (!id) {
     return { fieldErrors: { email: "Email already registered." } };
