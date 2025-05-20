@@ -1,15 +1,24 @@
-import React from 'react';
-import { Search, ArrowRight } from 'lucide-react';
+import React from "react";
+import { Search, ArrowRight } from "lucide-react";
+import FriendRequest from "./FriendRequest";
 
 type SearchFriendsProps = {
   value: string;
   onChange: (value: string) => void;
-  onSearch: () => void;
+  changeStyling: boolean;
 };
 
-export default function SearchFriends({ value, onChange, onSearch }: SearchFriendsProps) {
+export default function SearchFriends({
+  value,
+  onChange,
+  changeStyling,
+}: SearchFriendsProps) {
   return (
-    <div className="w-full bg-white rounded-lg p-3">
+    <div
+      className={`w-full bg-white border border-black p-3 ${
+        changeStyling ? "border-b-0" : "border-b-2"
+      }`}
+    >
       <div className="bg-gray-100 rounded-full flex items-center px-4 py-2 shadow-sm">
         <Search className="mr-2 text-gray-800" />
         <input
@@ -19,9 +28,9 @@ export default function SearchFriends({ value, onChange, onSearch }: SearchFrien
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
-        <button onClick={onSearch}>
+        {/* <button onClick={onSearch}>
           <ArrowRight className="text-gray-800" />
-        </button>
+        </button> */}
       </div>
     </div>
   );
