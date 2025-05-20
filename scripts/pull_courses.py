@@ -3,22 +3,18 @@
 import json
 import logging
 import requests
+from pathlib import Path
 
-FILENAME = "db-procs/02-insert-courses.sql"
 COURSEDOG_URL = "https://app.coursedog.com/api/v1/cm/cty01/courses/search/$filters"
 CATALOG_ID = "tZiZukp65EP1Gixjt6qf"
 
 logger = logging.getLogger(__name__)
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    logger.info("Using file=%s", FILENAME)
-
+def _get_courses() -> dict[str, tuple[str, str]]:
+    # Mapping of course code to (title, description)
+    courses: dict[str, tuple[str, str]] = {}
     total_count = 0
-
-    with open(FILENAME, "w") as f:
-        f.write("INSERT INTO courses (code, title, description) VALUES\n")
 
     while "bruh":
         logger.info("Requesting skip=%s, limit=%s", total_count, 1000)
@@ -35,16 +31,32 @@ if __name__ == "__main__":
         )
 
         resp = req.json()
-        courses = resp["data"]
 
-        with open(FILENAME, "a") as f:
-            for i, course in enumerate(courses):
-                code = course["code"]
-                title = course["longName"].replace("'", "''")
-                description = course["description"].replace("'", "''")
+        for course in resp["data"]:
+            code = course["code"]
+            title = course["longName"].replace("'", "''")
+            description = course["description"].replace("'", "''")
 
-                f.write(f"('{code}','{title}','{description}'),\n")
+            courses[code] = (title, description)
 
         total_count += len(courses)
         if total_count >= resp["listLength"]:
             break
+
+    return courses
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+
+    courses = _get_courses()
+
+    sql = "INSERT IGNORE INTO course (code, title, description) VALUES\n" + ",\n".join(
+        f"('{code}','{details[0]}','{details[1]}')" for code, details in courses.items()
+    )
+
+    path = Path(__file__).parent.parent / "db-procs" / "02-insert-courses.sql"
+    logger.info("Using file=%s", path)
+
+    with path.open("w") as f:
+        f.write(sql)
