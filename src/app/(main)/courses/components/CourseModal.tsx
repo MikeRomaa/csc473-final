@@ -47,6 +47,11 @@ export default function CourseModal({ isOpen, onClose, course }: CourseModalProp
     }, [course]);
 
     useEffect(() => {
+        if (course.total_enrolled === 0) {
+            setStudents([]);
+            return;
+        }
+
         fetch(`/api/courses/${course.code}`)
             .then((res) => res.json())
             .then(({ enrolled }) => setStudents(enrolled));
@@ -95,26 +100,28 @@ export default function CourseModal({ isOpen, onClose, course }: CourseModalProp
                     {enrolled ? "I'm not enrolled" : "I'm enrolled"}
                 </button>
 
-                <div>
-                    <h4 className="font-bold text-black mb-2">Enrolled</h4>
-                    <ul className="space-y-4 max-h-64 overflow-y-auto">
-                        {students === undefined ? (
-                            <p>Loading students...</p>
-                        ) : (
-                            students.map((name) => (
-                                <li key={name} className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-4">
-                                        <div className="w-10 h-10 bg-gray-200 rounded-full" />
-                                        <span className="text-gray-900">{name}</span>
-                                    </div>
-                                    <button className="px-4 py-2 bg-purple-700 hover:bg-purple-900 text-white rounded">
-                                        View Profile
-                                    </button>
-                                </li>
-                            ))
-                        )}
-                    </ul>
-                </div>
+                {course.total_enrolled > 0 && (
+                    <div>
+                        <h4 className="font-bold text-black mb-2">Enrolled</h4>
+                        <ul className="space-y-4 max-h-64 overflow-y-auto">
+                            {students === undefined ? (
+                                <p>Loading students...</p>
+                            ) : (
+                                students.map((name) => (
+                                    <li key={name} className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="w-10 h-10 bg-gray-200 rounded-full" />
+                                            <span className="text-gray-900">{name}</span>
+                                        </div>
+                                        <button className="px-4 py-2 bg-purple-700 hover:bg-purple-900 text-white rounded">
+                                            View Profile
+                                        </button>
+                                    </li>
+                                ))
+                            )}
+                        </ul>
+                    </div>
+                )}
             </div>
         </div>
     );
