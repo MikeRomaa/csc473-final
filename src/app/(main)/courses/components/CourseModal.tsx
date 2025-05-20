@@ -83,12 +83,12 @@ export default function CourseModal({ isOpen, onClose, course }: CourseModalProp
                     type="button"
                     onClick={enrolled ? unenroll : enroll}
                     className={`mb-6 px-4 py-2 rounded ${
-                        course.enrolled
+                        enrolled
                             ? "bg-red-700 hover:bg-red-900 text-white "
                             : "bg-green-700 hover:bg-green-900 text-white"
                     }`}
                 >
-                    {course.enrolled ? "I'm not enrolled" : "I'm enrolled"}
+                    {enrolled ? "I'm not enrolled" : "I'm enrolled"}
                 </button>
 
                 <div>

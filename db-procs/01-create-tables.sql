@@ -21,15 +21,9 @@ CREATE TABLE IF NOT EXISTS course (
 -- Junction table for user course registrations
 CREATE TABLE IF NOT EXISTS user_course (
     user_id     INT UNSIGNED NOT NULL,
-    course_code INT UNSIGNED NOT NULL,
-    professor   VARCHAR(35)  NOT NULL,
-    year        YEAR         NOT NULL,
-    semester    ENUM('winter', 'spring', 'summer', 'fall') NOT NULL,
+    course_code VARCHAR(100) NOT NULL,
 
-    -- Optional, users are not required to share the grade they received
-    grade       ENUM('C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+') NULL,
-
-    PRIMARY KEY (user_id, course_id, year, semester),
+    PRIMARY KEY (user_id, course_code),
     FOREIGN KEY (user_id)     REFERENCES user(id),
     FOREIGN KEY (course_code) REFERENCES course(code)
 );

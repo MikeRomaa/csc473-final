@@ -31,7 +31,7 @@ export async function searchCourses(query: string, user_id: number | null): Prom
         LEFT JOIN
             user_course
         ON
-            course.id = user_course.course_id
+            course.code = user_course.course_code
         LEFT JOIN
             user_course AS enrolled
         ON
@@ -43,20 +43,15 @@ export async function searchCourses(query: string, user_id: number | null): Prom
             (friends.user_b != :user_id AND user_course.user_id = friends.user_b)
         WHERE
             (
-                UPPER(code) LIKE CONCAT('%', :query, '%') OR
-                UPPER(title) LIKE CONCAT('%', :query, '%')
-            ) AND
-            (
-                :user_id IS NULL OR
-                friends.user_a = :user_id OR
-                friends.user_b = :user_id
+                UPPER(course.code) LIKE CONCAT('%', UPPER(:query), '%') OR
+                UPPER(course.title) LIKE CONCAT('%', UPPER(:query), '%')
             )
         GROUP BY
             enrolled.user_id,
-            course.id,
+            course.code,
             friends.user_a
-        LIMIT 10`,
-        { query: query.toUpperCase(), user_id },
+        LIMIT 12`,
+        { query, user_id },
     );
 
     return results;
